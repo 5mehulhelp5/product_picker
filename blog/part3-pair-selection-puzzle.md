@@ -352,7 +352,7 @@ After implementing this hybrid algorithm, I tested it on my 237 pendants.
 
 The difference is dramatic. Instead of wasting comparisons on obvious mismatches, every pair feels like it matters.
 
-![Top 3 rankings display](./screenshots/top_3_rankings.png)
+![Top 3 rankings display](/screenshots/top_3_rankings.png)
 *Figure 2: The final leaderboard, ranked by conservative score ($\mu - 3\sigma$). The top 3 are clearly separated from the rest, with high confidence (low $\sigma$) after just 47 comparisons.*
 
 ---

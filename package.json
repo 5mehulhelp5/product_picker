@@ -1,14 +1,14 @@
 {
-  "name": "product-picker-blog",
-  "version": "1.0.0",
-  "description": "Bayesian preference discovery blog",
-  "main": "index.js",
-  "scripts": {
-    "docs:dev": "vitepress dev blog",
-    "docs:build": "vitepress build blog",
-    "docs:preview": "vitepress preview blog"
-  },
-  "devDependencies": {
-    "vitepress": "^1.0.0"
-  }
+    "name": "product-picker-blog",
+    "version": "1.0.0",
+    "description": "Bayesian preference discovery blog",
+    "main": "index.js",
+    "scripts": {
+        "docs:dev": "vitepress dev blog",
+        "docs:build": "vitepress build blog",
+        "docs:preview": "vitepress preview blog"
+    },
+    "devDependencies": {
+        "vitepress": "^1.0.0"
+    }
 }

@@ -268,7 +268,7 @@ flowchart TD
 
 Every comparison creates a record. After a few dozen comparisons, the data looks like this:
 
-![Recent matches list](./screenshots/recent_matches.png)
+![Recent matches list](/screenshots/recent_matches.png)
 *Figure 5: The recent matches panel shows comparison history. Each row displays the two pendants, the outcome (Left/Right/Draw/Skip), and timestamp.*
 
 This raises important questions:
