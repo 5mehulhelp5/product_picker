@@ -92,7 +92,7 @@ We need something smarter.
 
 ---
 
-## E[Δσ]: Expected Uncertainty Reduction
+## $E[Delta\sigma]$: Expected Uncertainty Reduction
 
 Here's the key insight from **Bayesian active learning**: we should pick the pair that will teach us the most.
 
@@ -100,7 +100,7 @@ But "teach us the most" is vague. How do we quantify it?
 
 **Answer: measure how much uncertainty will shrink.**
 
-For any pair (i, j), we can compute the **Expected Δσ (EΔσ)**—the expected reduction in total uncertainty after comparing them.
+For any pair (i, j), we can compute the **Expected $\Delta\sigma$ ($E[\Delta\sigma]$)**—the expected reduction in total uncertainty after comparing them.
 
 $$
 E[\Delta\sigma]_{i,j} = \sum_{y \in \{L, R, D\}} P(y) \cdot \Delta\sigma_y
@@ -127,11 +127,11 @@ For two pendants with ratings $(\mu_L, \sigma_L)$ and $(\mu_R, \sigma_R)$:
 
 *(See `expected_sigma_reduction()` in `backend/pair_selection.py` for implementation details)*
 
-### Why EΔσ Works
+### Why $E[\Delta\sigma]$ Works
 
 This formula naturally captures everything we care about:
 
-| Situation | E[Δσ] Result | Why |
+| Situation | $E[Delta\sigma]$ Result | Why |
 |-----------|------------|-----|
 | Both items uncertain (high $\sigma$) | **High** | Lots of uncertainty to reduce |
 | One item uncertain | **Medium** | Still something to learn |
@@ -143,13 +143,13 @@ The beauty is that we don't need any heuristic bonuses or special cases. The mat
 
 ```mermaid
 graph TD
-    subgraph High["High E[Δσ] Pairs"]
+    subgraph High["High $E[Delta\sigma]$ Pairs"]
         H1["Both pendants uncertain"]
         H2["Similar estimated appeal"]
         H3["→ Compare these first!"]
     end
     
-    subgraph Low["Low E[Δσ] Pairs"]
+    subgraph Low["Low $E[Delta\sigma]$ Pairs"]
         L1["Both pendants well-measured"]
         L2["Very different appeal levels"]
         L3["→ Skip or defer"]
@@ -166,7 +166,7 @@ graph TD
 
 ## Thompson Sampling: Randomness as a Feature
 
-E[Δσ] is powerful, but it has a flaw: it's **deterministic**.
+$E[Delta\sigma]$ is powerful, but it has a flaw: it's **deterministic**.
 
 Given the same state, it always picks the same pair. This can lead to:
 
@@ -181,7 +181,7 @@ Enter **Thompson Sampling**, a beautifully simple algorithm from 1933 (!).
 1. For each pendant, **sample** an appeal value from its posterior: $\text{sample} \sim \mathcal{N}(\mu, \sigma^2)$
 2. Sort all pendants by their sampled appeal
 3. Consider adjacent pairs in this sampled ranking
-4. Score them with E[Δσ] and pick the best
+4. Score them with $E[Delta\sigma]$ and pick the best
 
 *(See `thompson_sample_pairs()` in `backend/pair_selection.py`)*
 
@@ -260,8 +260,8 @@ flowchart TD
     Thompson --> Candidates["Candidate pairs"]
     AllPairs --> Candidates
     
-    Candidates --> Score["Score each pair by E[Δσ]"]
-    Score --> Best["Select highest E[Δσ] pair"]
+    Candidates --> Score["Score each pair by $E[Delta\sigma]$"]
+    Score --> Best["Select highest $E[Delta\sigma]$ pair"]
     
     Best --> Exclude{"In cooldown?<br/>(just skipped/drew)"}
     Exclude -->|"Yes"| Next["Try next best pair"]
@@ -344,7 +344,7 @@ After implementing this hybrid algorithm, I tested it on my 237 pendants.
 - Kept showing obviously mismatched pairs
 - Top 3 kept changing even after 80 comparisons
 
-**After (hybrid E[Δσ] + Thompson)**:
+**After (hybrid $E[Delta\sigma]$ + Thompson)**:
 
 - ~50 comparisons to stable top 10
 - Pairs felt "meaningful"—close matches that were hard to decide
@@ -361,9 +361,9 @@ The difference is dramatic. Instead of wasting comparisons on obvious mismatches
 
 The complete algorithm combines:
 
-1. **Policy selection**: 75% greedy E[Δσ], 25% Thompson sampling
+1. **Policy selection**: 75% greedy $E[Delta\sigma]$, 25% Thompson sampling
 2. **Candidate generation**: Either all O(n²) pairs or Thompson's adjacent pairs
-3. **Scoring**: E[Δσ] for each candidate, with penalties for recent repeats
+3. **Scoring**: $E[Delta\sigma]$ for each candidate, with penalties for recent repeats
 4. **Filtering**: Exclude recently skipped/drawn pairs (cooldown)
 5. **Selection**: Return the highest-scoring valid pair
 
@@ -373,11 +373,11 @@ The complete algorithm combines:
 
 ## Key Takeaways
 
-1. **E[Δσ] is the gold standard** for active learning in pairwise ranking. It directly measures expected information gain.
+1. **$E[Delta\sigma]$ is the gold standard** for active learning in pairwise ranking. It directly measures expected information gain.
 
 2. **Thompson Sampling adds healthy randomness** by sampling from posteriors, naturally balancing exploration and exploitation.
 
-3. **The hybrid approach** (75% E[Δσ], 25% Thompson) combines their strengths while avoiding their weaknesses.
+3. **The hybrid approach** (75% $E[Delta\sigma]$, 25% Thompson) combines their strengths while avoiding their weaknesses.
 
 4. **TrueSkill does the heavy lifting**. The `quality_1vs1()` and `rate_1vs1()` functions give us everything we need for probabilistic reasoning about preferences.
 
