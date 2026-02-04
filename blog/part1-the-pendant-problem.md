@@ -1,160 +1,137 @@
 # Part 1: The Pendant Problem
 
-*How a Valentine's Day shopping crisis led me down a Bayesian rabbit hole*
+*A Valentine's Day shopping crisis, 237 browser tabs, and one very nerdy solution*
 
 ---
 
 ## The Setup
 
-It's February 2nd. Valentine's Day is in 12 days. And I'm staring at my screen, completely overwhelmed.
+February 2nd. Valentine's Day in 12 days. I'm sitting here with 237 pendant options saved across browser tabs, Pinterest boards, and random screenshot folders.
 
-My partner mentioned—once, briefly, months ago—that she'd love a nice pendant. Simple enough, right? Just find a pendant. How hard could that be?
+My girlfriend mentioned wanting a pendant once. Months ago. Casually. And now I've got rose gold teardrops and minimalist geometric things and vintage cameos and modern sculptural pieces all blurring together. They're all... nice? Some are really nice. But which one is *the one*?
 
-Two hundred and thirty-seven. That's how many pendant options I've saved across various browser tabs, Pinterest boards, and screenshot folders. Delicate gold chains, statement pieces, minimalist geometric shapes, vintage-inspired cameos, modern sculptural designs. Each one beautiful in its own way. Each one *potentially* the perfect gift.
-
-And I cannot, for the life of me, figure out which one to buy.
+I have no idea.
 
 ---
 
 ## The Solution
 
-So I built a tool that helped me decide. In just 47 comparisons—less than 5 minutes—it learned my preferences and revealed my top choice.
+Long story short: I built a thing. A little tool that shows me two pendants at a time, asks "which one?", and figures out my preferences from there.
 
 ![The Pendant Picker comparison interface](/screenshots/comparison_interface.png)
-*Figure 1: The Pendant Picker in action. Click which pendant you prefer—the algorithm learns your taste through simple pairwise comparisons and reveals your true favorites.*
+*The Pendant Picker. Two images, one click. Repeat until it knows what you like.*
 
-Here's how this works, and why it's surprisingly powerful.
+47 comparisons. That's all it took. Less than 5 minutes, and I had a clear winner.
 
----
-
-## The Rating Trap
-
-My first instinct was obvious: rate everything on a 1-5 scale. Open a spreadsheet, go through each pendant, assign a score, sort by rating, done.
-
-I got about 30 pendants in before I realized the problem.
-
-"Is this a 4 or a 5?" I muttered, staring at a rose gold teardrop design. It was nice. Really nice. But was it *five-star* nice? What even is five-star nice? The geometric pendant I rated 5 earlier was completely different in style—how could they be the same score?
-
-Rating things absolutely is *hard*. Our brains aren't calibrated for it. What felt like a 4 at 10am feels like a 3 by 2pm when you've seen fifty more options. The scale drifts. The mental fatigue sets in. By pendant #50, everything was getting 3s and 4s because my brain had given up making distinctions.
-
-I needed a different approach.
+Here's how it works—and honestly, the math behind it is kind of beautiful.
 
 ---
 
-## The Pairwise Insight
+## Why Rating Things Sucks
 
-Here's something psychologists have known for decades: **humans are comparison machines**.[^1]
+My first instinct was a spreadsheet. Rate everything 1-5, sort by score, done.
 
-Ask someone "How good is this pendant on a scale of 1-5?" and watch them struggle. But ask "Which of these two pendants do you prefer?" and the answer is often instant.
+I made it through about 30 pendants before this fell apart.
 
-Pairwise comparison is cognitively natural. We don't need to calibrate some internal scale. We don't need to hold abstract standards in our heads. We just look at two things and pick the one we like more.
+"Is this a 4 or a 5?" I'm staring at some rose gold teardrop thing. It's nice. Really nice. But is it *five-star* nice? What even is a 5? That geometric one I rated 5 earlier looks nothing like this—are they really equals?
 
-> **Absolute vs. Relative Judgment**
->
-> ❌ *"Rate this pendant 1-5"*
->
-> - Requires calibrated internal scale
-> - Scale drifts over time  
-> - Cognitively exhausting
->
-> ✅ *"Which pendant do you prefer, A or B?"*
->
-> - Direct comparison
-> - No calibration needed
-> - Fast and intuitive
+Here's the thing about rating stuff on an absolute scale: our brains are terrible at it. What feels like a 4 at 10am feels like a 3 at 2pm after you've seen 50 more options. The scale drifts. You get tired. By pendant #50, everything's getting 3s and 4s because you just don't care anymore.
 
-This is the insight behind everything from taste tests to Elo ratings in chess.[^2] Pairwise comparisons are cheap, fast, and surprisingly informative.
-
-But there's a catch.
+There had to be a better way.
 
 ---
 
-## The Combinatorial Explosion
+## The Pairwise Trick
 
-With 237 pendants, there are:
+Turns out psychologists figured this out ages ago.[^1]
+
+Ask someone "Rate this pendant 1-5" and watch them squirm. Ask them "Which of these two do you like better?" and you'll get an answer in a second.
+
+Comparisons are just... easier. You don't need some internal calibration. You don't need to remember what a "4" means. You just look at two things and pick one.
+
+> ❌ *"Rate this pendant 1-5"* — requires mental calibration, drifts over time, exhausting
+>
+> ✅ *"A or B?"* — instant, no calibration, doesn't wear you out
+
+This is why taste tests work. This is why chess uses Elo ratings. Pairwise comparisons squeeze a lot of information out of very little effort.[^2]
+
+But there's a problem.
+
+---
+
+## Too Many Pairs
+
+237 pendants means:
 
 $$\binom{237}{2} = \frac{237 \times 236}{2} = 27{,}966 \text{ possible pairs}$$
 
-Twenty-eight *thousand* comparisons to evaluate every possible matchup. At 5 seconds per comparison, that's 39 hours of clicking. Valentine's Day would be long gone.
+Almost 28,000 comparisons. At 5 seconds each, that's 39 hours. Valentine's Day would come and go.
 
-Obviously, I don't need to compare every pair. If pendant A beats B, and B beats C, I can probably assume A beats C (transitivity, mostly). But how do I pick which pairs to compare?
+Obviously I'm not comparing every pair. If A beats B and B beats C, A probably beats C. But how do I decide *which* pairs to compare?
 
-Random selection? That wastes comparisons on obvious matchups ("Do you prefer this gorgeous gold piece or this blob that you already rated poorly?").
+Random? Wastes time on obvious matchups.
 
-Round-robin? Better, but still inefficient. Why keep comparing items I've already ranked confidently?
+Round-robin? Still too slow, and why keep comparing things I'm already confident about?
 
-What I needed was an algorithm that could:
+I needed something smarter:
 
-1. **Learn a ranking** from relatively few comparisons
-2. **Pick informative pairs** to compare next
-3. **Know when to stop** (or at least slow down)
-
----
-
-## Enter the Algorithm
-
-This is where my inner engineer took over. Surely someone has solved this problem before?
-
-Spoiler: they have. Several someones, in fact.
-
-The system I eventually built combines two powerful ideas from the world of competitive gaming and Bayesian statistics:
-
-1. **TrueSkill**[^3] — Microsoft's rating system, originally built to match Xbox players. It models each item as having a "true skill" we're uncertain about, and updates our beliefs after each match.
-
-2. **Active Learning**[^4] — A branch of machine learning about asking the *right* questions. Instead of random sampling, actively choose the most informative data points.
-
-The result? An app that shows me two pendants, I click which one I prefer, and it learns. Fast. After just 47 comparisons—less than 0.2% of all possible pairs—the ranking had stabilized. My top 3 were clearly separated from the pack. I had my answer.
+1. Learn a ranking from *few* comparisons
+2. Pick which pairs to show next (not random, not exhaustive)
+3. Know when to stop
 
 ---
 
-## Try It Yourself
+## The Algorithm
 
-This isn't just a pendant picker—you can use it to choose between *anything*. Vacation destinations, apartment listings, color schemes, restaurant menu items, baby names—if you have a folder of images representing your options, you can rank them.
+Of course someone's solved this before. Turns out: several people, actually.
 
-**Getting started is simple:**
+The tool I built mashes together two ideas:
 
-1. Clone the repository: `git clone https://github.com/hugocool/product_picker`
-2. Follow the README instructions to set up the environment
-3. Launch the app and point it to a folder containing images of your options
-4. Start comparing! The algorithm will guide you to discover your true preferences
+1. **TrueSkill**[^3] — Microsoft built this to match Xbox players. Each item gets a "skill" rating plus an uncertainty measure. After each match, both get updated. Works just as well for pendants as for Halo players.
 
-The entire codebase is open source, including the TrueSkill implementation and the active learning pair selection algorithm we'll explore in Parts 2 and 3.
+2. **Active Learning**[^4] — Instead of picking pairs randomly, pick the ones that will teach you the most. Information theory meets decision making.
 
-*Too lazy to set it up yourself? Ask your Claude or ChatGPT coding assistant to help—they can walk you through the setup in minutes.*
+Put them together and you get something that actually works. Show me two pendants, I pick one, repeat. After 47 comparisons—that's 0.2% of all possible pairs—the top 3 were clear and the ranking had stabilized.
 
 ---
 
-## What's Coming Up
+## Want to Try It?
 
-In the next parts of this series, I'll dive into the beautiful mathematics that makes this work:
+This works for anything, not just pendants. Apartments, vacation photos, design mockups, restaurant options, baby names—anything you can screenshot.
 
-**[Part 2: TrueSkill Demystified](./part2-trueskill-demystified.md)**
+```bash
+git clone https://github.com/hugocool/product_picker
+# follow the README to set up
+# point it at a folder of images
+# start clicking
+```
 
-- How Xbox's matchmaking algorithm reveals your true preferences
-- What $\mu$ (mu) and $\sigma$ (sigma) really mean—belief and uncertainty
-- Why "conservative score" prevents lucky first impressions from dominating
+The whole thing is open source. If you're lazy, just ask ChatGPT or Claude to help you set it up.
 
-**[Part 3: The Pair Selection Puzzle](./part3-pair-selection-puzzle.md)**
+---
 
-- The explore vs. exploit dilemma
-- $E[\Delta\sigma]$: Expected Uncertainty Reduction (the Bayesian way to pick pairs)
-- Thompson Sampling: Let randomness guide you (wisely)
-- The hybrid approach that makes it all work
+## What's Next
 
-But first, let me show you the core insight that makes TrueSkill so elegant: **every pendant has an appeal to you that you don't consciously know, and every comparison reveals something new about your preferences**.
+The next two posts get into the math:
+
+**[Part 2: TrueSkill Demystified](./part2-trueskill-demystified.md)** — How the Xbox matchmaking algorithm works, what $\mu$ and $\sigma$ actually mean, and why "conservative score" matters.
+
+**[Part 3: The Pair Selection Puzzle](./part3-pair-selection-puzzle.md)** — The explore/exploit tradeoff, $E[\Delta\sigma]$ (expected information gain), Thompson Sampling, and the hybrid approach that ties it together.
+
+The core insight: you have preferences you can't articulate directly, but every comparison reveals a little more about them.
 
 ---
 
 ## References
 
-[^1]: Thurstone, L. L. (1927). "A law of comparative judgment." *Psychological Review*, 34(4), 273–286. The foundational paper on pairwise comparison and comparative judgment.
+[^1]: Thurstone, L. L. (1927). "A law of comparative judgment." *Psychological Review*, 34(4), 273–286.
 
-[^2]: Elo, A. E. (1978). *The Rating of Chessplayers, Past and Present*. Arco Publishing. The classic text introducing the Elo rating system.
+[^2]: Elo, A. E. (1978). *The Rating of Chessplayers, Past and Present*. Arco Publishing.
 
-[^3]: Herbrich, R., Minka, T., & Graepel, T. (2007). "TrueSkill™: A Bayesian Skill Rating System." *Advances in Neural Information Processing Systems*, 19. Microsoft Research's foundational paper on TrueSkill.
+[^3]: Herbrich, R., Minka, T., & Graepel, T. (2007). "TrueSkill™: A Bayesian Skill Rating System." *Advances in Neural Information Processing Systems*, 19.
 
-[^4]: Settles, B. (2009). "Active Learning Literature Survey." *Computer Sciences Technical Report 1648*, University of Wisconsin-Madison. Comprehensive overview of active learning methods.
+[^4]: Settles, B. (2009). "Active Learning Literature Survey." *Computer Sciences Technical Report 1648*, University of Wisconsin-Madison.
 
 ---
 
-*Next up: [Part 2 - TrueSkill Demystified](./part2-trueskill-demystified.md)*
+*Next: [Part 2 - TrueSkill Demystified](./part2-trueskill-demystified.md)*
