@@ -50,3 +50,9 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+.history/
+
+# VitePress
+node_modules/
+.vitepress/dist/
+.vitepress/cache/
