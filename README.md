@@ -107,8 +107,7 @@ product_picker/
 │   ├── QUICKSTART.md       # Installation & usage guide
 │   └── FOLDER_PERSISTENCE.md  # Persistence feature docs
 ├── notebooks/               # Jupyter notebooks
-├── tests/                   # Unit tests
-└── examples/                # Example scripts
+└── tests/                   # Unit tests
 ```
 
 ## Documentation
