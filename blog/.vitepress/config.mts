@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { katex } from '@mdit/plugin-katex'
 import { createMermaidPlugin } from './mermaid-plugin'
+import footnote from 'markdown-it-footnote'
 
 export default defineConfig({
     title: "Product Picker",
@@ -11,6 +12,7 @@ export default defineConfig({
         config(md) {
             md.use(katex)
             md.use(createMermaidPlugin())
+            md.use(footnote)
         }
     },
     head: [
