@@ -100,22 +100,22 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 ```
 product_picker/
-├── src/product_picker/
-│   ├── __init__.py
-│   ├── models.py          # SQLModel database schemas
-│   ├── database.py        # Database operations
-│   ├── rating.py          # TrueSkill rating logic
-│   ├── images.py          # Image loading and processing
-│   ├── matching.py        # Pair selection heuristics
-│   ├── ui.py              # Gradio interface
-│   └── app.py             # Main application entry point
-├── notebooks/
-│   └── pendant_chooser.ipynb
-├── tests/
-├── pyproject.toml
-├── requirements.txt
-└── README.md
+├── src/product_picker/      # Core application code
+├── blog/                    # VitePress documentation site
+├── docs/                    # Technical documentation
+│   ├── ALGORITHM.md        # Pair selection algorithm details
+│   ├── QUICKSTART.md       # Installation & usage guide
+│   └── FOLDER_PERSISTENCE.md  # Persistence feature docs
+├── notebooks/               # Jupyter notebooks
+├── tests/                   # Unit tests
+└── examples/                # Example scripts
 ```
+
+## Documentation
+
+- **Blog Series**: [https://hugocool.github.io/product_picker/](https://hugocool.github.io/product_picker/)
+- **Quick Start**: [docs/QUICKSTART.md](docs/QUICKSTART.md)
+- **Algorithm Details**: [docs/ALGORITHM.md](docs/ALGORITHM.md)
 
 ## License
 
