@@ -46,13 +46,17 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Testing
+# Testing & Tools
 .pytest_cache/
+.mypy_cache/
 .coverage
 htmlcov/
 .history/
+.vscode/
 
-# VitePress
+# Package managers
+uv.lock
+.venv/
 node_modules/
 .vitepress/dist/
 .vitepress/cache/
