@@ -2,15 +2,19 @@
 
 *A Bayesian tool for discovering your true preferences*
 
-Product Picker is a pairwise comparison application designed to help you make decisions when faced with too many options. Originally built to solve a Valentine's Day "Pendant Problem," it uses Microsoft's **TrueSkill** algorithm—the same system used for Xbox matchmaking—to learn your subjective taste through simple "A or B" choices.
+Product Picker is a general-purpose pairwise comparison tool. It helps you make decisions when faced with too many visual options. Whether you're choosing a vacation destination, an apartment, a color scheme, or (as in the origin story) the perfect piece of jewelry, this app uses Microsoft's **TrueSkill** algorithm to learn your subjective taste through simple "A or B" choices.
 
 ## 📖 The Story & The Math
 
-I wrote a three-part blog series explaining the journey from a folder full of 237 pendants to a Bayesian-powered ranking app:
+Read the full three-part series on how this works:
 
-1. [Part 1: The Pendant Problem](./blog/part1-the-pendant-problem.md) — Motivation and why pairwise comparison beats absolute ratings.
-2. [Part 2: TrueSkill Demystified](./blog/part2-trueskill-demystified.md) — How $\mu$ (appeal) and $\sigma$ (uncertainty) model your taste.
-3. [Part 3: The Pair Selection Puzzle](./blog/part3-pair-selection-puzzle.md) — Active learning, $E[\Delta\sigma]$, and Thompson Sampling.
+**[👉 Read the Blog Series (hosted on GitHub Pages)](https://hugocool.github.io/product_picker/)**
+
+1. [Part 1: The Pendant Problem](https://hugocool.github.io/product_picker/part1-the-pendant-problem) — Motivation and why pairwise comparison beats absolute ratings.
+2. [Part 2: TrueSkill Demystified](https://hugocool.github.io/product_picker/part2-trueskill-demystified) — How $\mu$ (appeal) and $\sigma$ (uncertainty) model your taste.
+3. [Part 3: The Pair Selection Puzzle](https://hugocool.github.io/product_picker/part3-pair-selection-puzzle) — Active learning, $E[\Delta\sigma]$, and Thompson Sampling.
+
+*(Markdown source files are also available [locally](./blog/README.md))*
 
 ## Features
 
