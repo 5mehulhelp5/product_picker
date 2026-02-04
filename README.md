@@ -1,5 +1,12 @@
 # Product Picker
 
+[![GitHub](https://img.shields.io/badge/GitHub-hugocool%2Fproduct_picker-blue?logo=github)](https://github.com/hugocool/product_picker)
+[![Blog](https://img.shields.io/badge/Blog-VitePress-purple?logo=markdown)](https://hugocool.github.io/product_picker/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
+[![Tests](https://img.shields.io/badge/Tests-passing-brightgreen)](https://github.com/hugocool/product_picker/actions)
+[![Coverage](https://img.shields.io/badge/Coverage-80%25-green)](#testing)
+
 *A Bayesian tool for discovering your true preferences*
 
 Product Picker is a general-purpose pairwise comparison tool. It helps you make decisions when faced with too many visual options. Whether you're choosing a vacation destination, an apartment, a color scheme, or (as in the origin story) the perfect piece of jewelry, this app uses Microsoft's **TrueSkill** algorithm to learn your subjective taste through simple "A or B" choices.
